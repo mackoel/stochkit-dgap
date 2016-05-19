@@ -1026,7 +1026,7 @@ linkSpeciesAndReactions()
                                                 ++k;
 
                                         if( k == species_involved_in_propensity.size() ){
-                                                std::cout << "StochKit WARNING (Input_events::linkSpeciesAndReactions): reactant " << cur_reaction->Reactants[j].Id << " not shown in the propensity function of reaction " << cur_reaction->Id << ", this may cause negative population of this species." << std::endl;
+						std::cerr << "StochKit WARNING (Input_events::linkSpeciesAndReactions): reactant " << cur_reaction->Reactants[j].Id << " not shown in the propensity function of reaction " << cur_reaction->Id << ", this may cause negative population of this species." << std::endl;
                                         }
                                 }
                         }

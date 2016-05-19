@@ -10948,20 +10948,20 @@ public:
 
         propensityParameters.resize(NumberOfParameters);
 
-        cout << "Enter parametrs: " << endl;
+		cerr << "Enter parameters: " << endl;
         char name[5];
         cin >> name;
         for (int i = 0; i < NumberOfParameters; i++)
             cin >> propensityParameters[i];
 
         for (int i = 0; i < 20; i++)
-            cout << "Entered parametr: "<< propensityParameters[i] << endl;
+			cerr << "Entered parameters: "<< propensityParameters[i] << endl;
 
-        cout << "Diffuse parametr: " << propensityParameters[20] << endl;
-        cout << "Transcription start parametr: " << propensityParameters[21] << endl;
-        cout << "Protein degradation parametr: " << propensityParameters[22] << endl;
-        cout << "mRNA degradation parametr: " << propensityParameters[23] << endl;
-        cout << "Translation parametr: " << propensityParameters[24] << endl;
+		cerr << "Diffuse parameter: " << propensityParameters[20] << endl;
+		cerr << "Transcription start parameter: " << propensityParameters[21] << endl;
+		cerr << "Protein degradation parameter: " << propensityParameters[22] << endl;
+		cerr << "mRNA degradation parameter: " << propensityParameters[23] << endl;
+		cerr << "Translation parameter: " << propensityParameters[24] << endl;
 
         propensityFunctions.resize(2184);
         propensityFunctions[0] = &f0<_populationVectorType>;

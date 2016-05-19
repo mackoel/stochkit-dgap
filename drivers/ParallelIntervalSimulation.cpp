@@ -235,9 +235,9 @@ namespace STOCHKIT
 			}
 			else {
 #ifdef WIN32
-				std::cout << "StochKit WARNING: messages written to log file: \"" << OutputDir<<"\\log.txt\"\n";   
+				std::cerr << "StochKit WARNING: messages written to log file: \"" << OutputDir<<"\\log.txt\"\n";
 #else
-				std::cout << "StochKit WARNING: messages written to log file: \"" << commandLine.getOutputDir()<<"/log.txt\"\n"; 
+				std::cerr << "StochKit WARNING: messages written to log file: \"" << commandLine.getOutputDir()<<"/log.txt\"\n";
 #endif
 			}
 		}
@@ -451,7 +451,7 @@ namespace STOCHKIT
 		}
 
 		if (numFiles>10000 || dataSize>10000000) {
-			std::cout << "StochKit WARNING: simulation will generate large amounts of data (approx. "<<dataSize/1000000<<"MB in "<< numFiles <<" files)...initializing...\n";
+			std::cerr << "StochKit WARNING: simulation will generate large amounts of data (approx. "<<dataSize/1000000<<"MB in "<< numFiles <<" files)...initializing...\n";
 		}
 		std::cout.flush();
 	}

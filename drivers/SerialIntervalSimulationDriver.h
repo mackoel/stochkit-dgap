@@ -30,13 +30,13 @@ namespace STOCHKIT
 template<typename _solverType>
 class SerialIntervalSimulationDriver
 {
-	
+
 public:
   typedef typename _solverType::populationVectorType populationVectorType;
   typedef typename _solverType::stoichiometryType stoichiometryType;
   typedef typename _solverType::propensitiesType propensitiesType;
   typedef typename _solverType::dependencyGraphType dependencyGraphType;
-  typedef StandardDriverTypes::outputType outputType;  
+  typedef StandardDriverTypes::outputType outputType;
 
   SerialIntervalSimulationDriver(int ac, char* av[]):
     commandLine(ac,av),
@@ -44,7 +44,7 @@ public:
   {}
 
   _solverType createMassActionSolver() {
-    
+
     char modelFileName[2048];
 
 #ifdef WIN32//for visual studio
@@ -70,11 +70,11 @@ public:
 
     return solver;
   }
-  
+
   //Input_mixed_after_compile won't compile unless CustomPropensityFunctions.h is included (i.e. we're compiling a mixed model)
 #ifdef MIXED
   _solverType createMixedSolver() {
-    
+
     char modelFileName[2048];
 #ifdef WIN32
 	std::string name;
@@ -85,7 +85,7 @@ public:
 	strcpy(modelFileName, commandLine.getModelFileName().c_str());
 //	modelFileName=const_cast<char*>(commandLine.getModelFileName().c_str());
 #endif
-    
+
     Input_mixed_after_compile<populationVectorType, stoichiometryType, propensitiesType, dependencyGraphType> model(modelFileName);
 
     _solverType solver(model.writeInitialPopulation(),
@@ -104,7 +104,7 @@ public:
 
 #ifdef EVENTS
   _solverType createEventsSolver() {
-    
+
     char modelFileName[2048];
 #ifdef WIN32
 	std::string name;
@@ -115,7 +115,7 @@ public:
 	strcpy(modelFileName, commandLine.getModelFileName().c_str());
 //	modelFileName=const_cast<char*>(commandLine.getModelFileName().c_str());
 #endif
-	
+
 	typedef StandardEventHandler<StandardDriverTypes::populationType> eventsType;
 
     Input_events_after_compile<populationVectorType, stoichiometryType, propensitiesType, dependencyGraphType, eventsType, _solverType> model(modelFileName);
@@ -136,9 +136,9 @@ public:
   void callSimulate(_solverType& solver) {
     std::size_t realizations=commandLine.getRealizations();
     double simulationTime=commandLine.getSimulationTime();
-    
+
     std::size_t intervals=commandLine.getIntervals();
-    
+
     //set output options
     output.setOutputTimes(IntervalOutput<populationVectorType>::createUniformOutputTimes(0.0,simulationTime,intervals));
     output.setKeepStats(commandLine.getKeepStats());
@@ -149,7 +149,7 @@ public:
     if (commandLine.getSpeciesSubset().size()!=0) {
       output.setSpeciesSubset(commandLine.getSpeciesSubset());
     }
-    
+
 #ifdef EVENTS
     typedef StandardEventHandler<StandardDriverTypes::populationType> eventsType;
     //unfortunately, we need to create another instance of model here
@@ -166,9 +166,9 @@ public:
 #endif
 
     Input_events_after_compile<populationVectorType, stoichiometryType, propensitiesType, dependencyGraphType, eventsType, _solverType> model(modelFileName);
-    
+
     eventsType eventsHandler=model.writeEvents(solver);
-    
+
     solver.template simulateEvents<outputType>(realizations, 0.0, simulationTime, output, eventsHandler);
 #else
     solver.template simulate<outputType>(realizations, 0.0, simulationTime, output);
@@ -177,12 +177,12 @@ public:
 
   void writeOutput() {
     output.stats.getError();
-    /*
+    /* the following is not need for optimization */
     if (!commandLine.getUseExistingOutputDirs()) {
       StandardDriverUtilities::createOutputDirs(commandLine,false);
     }
 
-    if (commandLine.getKeepStats()) {     
+    if (commandLine.getKeepStats()) {
       output.stats.writeMeansToFile(commandLine.getOutputDir()+"/"+commandLine.getStatsDir()+"/"+commandLine.getMeansFileName());
       output.stats.writeVariancesToFile(commandLine.getOutputDir()+"/"+commandLine.getStatsDir()+"/"+commandLine.getVariancesFileName());
       output.stats.writeSimulationInfoFile(commandLine.getOutputDir()+"/"+commandLine.getStatsDir()+"/"+commandLine.getStatsInfoFileName());
@@ -198,7 +198,7 @@ public:
 	  IntervalOutput<StandardDriverTypes::populationType>::writeLabelsToFile(commandLine.getOutputDir()+"/"+commandLine.getTrajectoriesDir()+"/trajectory"+trajectoryNumberString+".txt",commandLine.getSpeciesNames());
 	  output.trajectories.writeDataToFile(i,commandLine.getOutputDir()+"/"+commandLine.getTrajectoriesDir()+"/trajectory"+trajectoryNumberString+".txt",true,true);
 	}
-	else {  
+	else {
 	  output.trajectories.writeDataToFile(i,commandLine.getOutputDir()+"/"+commandLine.getTrajectoriesDir()+"/trajectory"+trajectoryNumberString+".txt");
 	}
       }
@@ -213,20 +213,20 @@ public:
 	  std::cerr << "StochKit ERROR (SerialIntervalSimulationDriver::writeOutput): Unable to open histogram info file for writing.\n";
 	  exit(1);
 	}
-	
+
 	outfile << output.histograms.numberOfSpecies() << "\n";
-	
+
 	outfile.close();
       }
-    }*/
+    }/* the previous is not needed for optimization */
   }
-  
+
   CommandLineInterface getCommandLine() {
 	return commandLine;
   }
-  
+
 private:
-  
+
 	CommandLineInterface commandLine;
 	outputType output;
 
