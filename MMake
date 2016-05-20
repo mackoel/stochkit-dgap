@@ -1,0 +1,14 @@
+GENHED = src/CustomPropensityFunctions.h 
+OBJ = drivers/tau_leaping_exp_adapt_mixed_serial.cpp \
+	utility/Random.cpp \
+	model_parser/Parameter.cpp \
+	utility/CommandLineInterface.cpp \
+	utility/StandardDriverUtilities.cpp \
+	model_parser/StringCalculator.cpp \
+	drivers/ParallelIntervalSimulation.cpp
+
+INC=-Idrivers  -Isrc  -Imodel_parser  -Ioutput  -Isolvers  -Iutility -I/home2/ioffe3/kkozlov/el6/StochKit2.0.11/libs/boost_1_53_0
+L=-L/home2/ioffe3/kkozlov/el6/StochKit2.0.11/libs/boost_1_53_0/stage/lib -L/home2/ioffe3/kkozlov/el6/usr/lib64
+
+all: $(OBJ) $(GENHED)
+	g++ -std=c++0x -DMATRIX_STOICHIOMETRY -DMIXED -o drozstoch $(OBJ) $(INC) $(L) -L/usr/lib64 -I/usr/include -I/home2/ioffe3/kkozlov/el6/usr/include/libxml2 -lm -lxml2 -lboost_program_options -lboost_thread -lboost_filesystem -lboost_system
