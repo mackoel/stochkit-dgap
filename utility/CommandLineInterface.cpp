@@ -22,6 +22,7 @@ visible("command line options")
 		("out-dir",boost::program_options::value<std::string>(&temp_dir),"Specify the output directory (default is <model name>_output.")
 		("force,f","Overwrite existing output directory and output files without confirmation.")
 		("no-recompile","Use previously compiled model code. Applicable only to models with customized propensity functions.  See documentation for details.")
+		("unfold","Print means.")
 		("seed",boost::program_options::value<int>(&seed),"Seed the random number generator")
 		("processes,p",boost::program_options::value<std::size_t>(&processes)->default_value(0),"Override default and specify the number of processes to use. By default (=0), the number of processes will be determined automatically.")
 		("epsilon",boost::program_options::value<double>(&epsilon)->default_value(0.03),"Set the tolerance (applicable to tau leaping only), default is 0.03. Valid values: must be greater than 0.0 and less than 1.0.")
@@ -201,6 +202,10 @@ bool CommandLineInterface::getRecompile() const {
 	return recompile;
 }
 
+bool CommandLineInterface::getUnfold() const {
+	return unfold;
+}
+
 std::string CommandLineInterface::getCmdArgs() const {
 	return cmdArgs;
 }
@@ -296,6 +301,13 @@ void CommandLineInterface::parse(int ac, char* av[]) {
 	}
 	else {
 		recompile=true;
+	}
+
+	if (vm.count("unfold")) {
+		unfold=true;
+	}
+	else {
+		unfold=false;
 	}
 
 	std::string full_model_path=boost::filesystem::system_complete(modelFileName).string();

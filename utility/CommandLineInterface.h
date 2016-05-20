@@ -69,6 +69,7 @@ namespace STOCHKIT
 
   std::string getGeneratedCodeDir() const;
   bool getRecompile() const;
+  bool getUnfold() const;
 
   std::string getCmdArgs() const;
 
@@ -120,6 +121,7 @@ namespace STOCHKIT
   std::string histogramsInfoFileName;
   std::string generatedCodeDir;
   bool recompile;
+  bool unfold;
   std::string cmdArgs;
  };
 }

@@ -178,6 +178,9 @@ public:
   void writeOutput() {
     output.stats.getError();
     /* the following is not need for optimization */
+	if (!commandLine.getUnfold()) {
+		return;
+	}
     if (!commandLine.getUseExistingOutputDirs()) {
       StandardDriverUtilities::createOutputDirs(commandLine,false);
     }
