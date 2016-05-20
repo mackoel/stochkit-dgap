@@ -2,6 +2,11 @@
 
 ## Created by Anjuta
 
+stochkit_dgapdir = $(datadir)/stochkit-dgap
+stochkit_dgap_DATA = model.xml
+
+EXTRA_DIST = $(stochkit_dgap_DATA)
+
 AM_CPPFLAGS = \
 	$(BOOST_CPPFLAGS) \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
