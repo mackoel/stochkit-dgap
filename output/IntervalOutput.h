@@ -203,7 +203,7 @@ public:
       sum_res += t * t;
     }
 
-    std::cout << sum_res;
+	std::cout << sum_res << std::endl;
     return sum_res;
   }
 

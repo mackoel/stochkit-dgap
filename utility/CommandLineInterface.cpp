@@ -248,14 +248,14 @@ void CommandLineInterface::parse(int ac, char* av[]) {
 		keepHistograms=true;
 	}
 
-	keepStats=true;//default; if set to false, must keep trajectories or histograms (otherwise you would be storing nothing)
+	keepStats=false;//default; if set to false, must keep trajectories or histograms (otherwise you would be storing nothing)
 	if (vm.count("no-stats")) {
-		if (!keepTrajectories && !keepHistograms) {
-			std::cout << "StochKit ERROR (CommandLineInterface::parse): must keep statistics, trajectory or histogram data.\n." << std::endl;
+/*		if (!keepTrajectories && !keepHistograms) {
+			std::cerr << "StochKit ERROR (CommandLineInterface::parse): must keep statistics, trajectory or histogram data.\n." << std::endl;
 			exit(1);
 		}
-
-		keepStats=false;
+*/
+		keepStats=true;
 	}
 
 	if (epsilon<=0.0 || epsilon>=1.0) {
