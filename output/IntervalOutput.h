@@ -182,9 +182,58 @@ public:
     }
   }
 
+double CalculateMean(std::vector<double> &x) {
+    double sum = 0;
+
+    for(int i = 0; i < x.size(); i++)
+      sum += x[i];
+
+    return sum / x.size();
+  }
+
+  double CalculateVariane(std::vector<double> &x) {
+    double mean = CalculateMean(x);
+    double temp = 0;
+
+    for(int i = 0; i < x.size(); i++)
+      temp += (x[i] - mean) * (x[i] - mean);
+    
+    return temp / x.size();
+  }
+
+  double CalculateStandardDeviation(std::vector<double> &x) {
+    return sqrt(CalculateVariane(x));
+  }
+
+  double CalculateCovariance(std::vector<double> &x, std::vector<double> &y) {
+    double xmean = CalculateMean(x);
+    double ymean = CalculateMean(y);
+ 
+    double total = 0;
+
+    for(int i = 0; i < x.size(); i++)
+      total += (x[i] - xmean) * (y[i] - ymean);
+
+    return total / x.size();
+  }
+
+  double CalculateCorrelation(std::vector<double> &x, std::vector<double> &y) {
+    double cov = CalculateCovariance(x, y);
+    double sigma1 = CalculateStandardDeviation(x);
+    double sigma2 = CalculateStandardDeviation(y);
+    double correlation;
+    if (sigma1 * sigma2 > 0)
+	correlation = cov / (sigma1 * sigma2);
+    else
+	correlation = -2;
+
+    return correlation;
+  }
+
   double getError()  {
     std::vector<double> kni_res({0.826, 1.102, 1.879, 8.801, 27.885, 25.785, 10.496, 4.076, 2.344, 0.000});
     std::vector<double> rna_res({0.493, 5.751, 10.861, 50.735, 190.953, 201.132, 84.133, 38.528, 16.438, 0.066});
+
     size_t countRealiz = data.size();
     size_t indLastInterval = data[1].size() - 1;
     size_t countCore = 10;
@@ -202,8 +251,13 @@ public:
       double t = rna_res[icore] - data[1][indLastInterval][icore];      
       sum_res += t * t;
     }
+    std::vector<double> kni_new(data[1][indLastInterval].begin() + countCore, data[1][indLastInterval].begin() + countCore + countCore);
+    std::vector<double> rna_new(data[1][indLastInterval].begin(), data[1][indLastInterval].begin() + countCore); 
 
-	std::cout << sum_res << std::endl;
+    std::cout << std::setiosflags(std::ios::fixed) << std::setprecision(16);
+    std::cout << 1 - CalculateCorrelation(kni_res, kni_new) << std::endl;
+    std::cout << 1 - CalculateCorrelation(rna_res, rna_new) << std::endl;
+    std::cout << sum_res << std::endl;
     return sum_res;
   }
 
