@@ -181,7 +181,7 @@ calculateAllPropensities() {
 	if (propensitySum>0.0 && smallestNonzeroPropensity/propensitySum<2E-10) { //per S.Mauch, M.Stalzer. (2009) "Efficient Formulations for Exact..."
 		if (detectedVerySmallPropensity==false) {
 			detectedVerySmallPropensity=true;
-			std::cout << "StochKit WARNING (SSA_Direct::calculateAllPropensities): detected very small propensity value, biased sampling of small propensity reactions may occur\n";
+			std::cerr << "StochKit WARNING (SSA_Direct::calculateAllPropensities): detected very small propensity value, biased sampling of small propensity reactions may occur\n";
 		}
 	}
 	#ifdef DEBUG
