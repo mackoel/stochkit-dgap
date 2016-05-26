@@ -18,7 +18,7 @@ int main(int ac, char* av[])
     StandardDriverTypes::stoichiometryType, 
     StandardDriverTypes::propensitiesType,
     StandardDriverTypes::graphType> solverType;
-
+  setFilename(av[ac - 1]);
   SerialIntervalSimulationDriver<solverType> driver(ac,av);
 
   solverType solver=driver.createMixedSolver();

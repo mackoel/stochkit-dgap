@@ -10934,6 +10934,9 @@ double f2183(_populationVectorType& x) {
     return (double)(max ( 0.0, propensityParameters[2] * max(x[142] - x[127], 0.0 ) ));
 }
 
+static string parametersFilename;
+static void setFilename(char *filename) {parametersFilename = filename;};
+
 template<typename _populationVectorType>
 class CustomPropensityFunctions
 {
@@ -10943,16 +10946,17 @@ public:
     std::vector<PropensityMember> propensityFunctions;
 
     // default constructor
-    CustomPropensityFunctions() {
+	CustomPropensityFunctions() {
 
         propensityParameters.resize(NumberOfParameters);
-
+		ifstream infile;
+		infile.open(parametersFilename);
         cerr << "Enter parametrs: " << endl;
         char name[5];
-        cin >> name;
+		infile >> name;
         for (int i = 0; i < NumberOfParameters; i++)
-            cin >> propensityParameters[i];
-
+			infile >> propensityParameters[i];
+		infile.close();
         for (int i = 0; i < 2; i++)
             cerr << "Entered parametr: "<< propensityParameters[i] << endl;
 
